@@ -1,0 +1,165 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Assistant</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        /* CLEAN BACKGROUND (no zoom feel) */
+        background-image: url("{% static 'assistant/img.png' %}");
+        background-size: contain;       /* 🔥 key change */
+        background-position: right center;
+        background-repeat: no-repeat;
+        background-color: #f5f6f8;
+    }
+
+    .container {
+        margin-left: 80px;
+        width: 340px;
+
+        padding: 24px;
+        border-radius: 16px;
+
+        background: #ffffff;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        font-size: 20px;
+        color: #1e3a8a;
+        margin-bottom: 6px;
+    }
+
+    p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 16px;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        margin-top: 12px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        outline: none;
+    }
+
+    input[type="text"]:focus {
+        border-color: #1e73e8;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        background: #2d7be5;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #1f5fc4;
+    }
+
+    .result {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .error {
+        color: red;
+        margin-top: 10px;
+    }
+
+    /* 📱 TABLET */
+    @media (max-width: 1024px) {
+        body {
+            background-size: 60%;
+        }
+    }
+
+    /* 📱 MOBILE */
+    @media (max-width: 768px) {
+        body {
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            margin-left: 0;
+            width: 90%;
+            max-width: 400px;
+        }
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Legal Document Assistant</h2>
+    <p>Upload your document and ask a question</p>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.file }}
+
+    <input type="text" name="question" placeholder="Ask a question (optional)">
+    <button type="submit">Upload & Analyze</button>
+</form>
+
+{% if summary %}
+<div class="result">
+    <h3>Summary:</h3>
+    <p style="white-space: pre-line;">{{ summary }}</p>
+</div>
+{% endif %}
+
+
+{% if answer %}
+<div class="result">
+    <h3>Answer:</h3>
+    <p>{{ answer }}</p>
+</div>
+{% endif %}
+
+{% if error_message %}
+<div class="error">
+    {{ error_message }}
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+Django==5.2.8
+
+# PDF Processing
+PyPDF2==3.0.1
+
+# HTTP Requests (for AI APIs like OpenRouter / Gemini)
+requests==2.32.3
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# For handling uploads & files safely
+Pillow==10.4.0
+
+# Optional (recommended for better parsing later)
+pdfplumber==0.11.4
+
+# Optional (if you expand AI features)
+tqdm==4.66.5
